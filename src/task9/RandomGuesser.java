@@ -5,6 +5,15 @@ import java.security.SecureRandom;
 import java.util.*;
 
 public class RandomGuesser {
+    /*
+     * Possible improvements:
+     * Using the previous guesses, suggest info from a previous guess
+     * e.g. if a previous guess was 656533, and the answer is lower, but the user guesses 867587, 
+     * tell the user that the answer is lower based on previous guess 656533
+     * 
+     * possible implementation, create two sorted stacks with either guesses that were higher or lower than the guess
+     * makes it easier to find the guesses that are closest to the answer thus far. 
+     */
     private final int num;
     private final File f;
     private List<Integer> guesses;
@@ -60,8 +69,9 @@ public class RandomGuesser {
     }
 
     private void saveGuess(int guess) {
-        try (FileWriter fw = new FileWriter(f); BufferedWriter bw = new BufferedWriter(fw);) {
+        try (FileWriter fw = new FileWriter(f, true); BufferedWriter bw = new BufferedWriter(fw);) {
             bw.append(Integer.toString(guess));
+            bw.newLine();
             bw.close();
         } catch (IOException e) {
             System.out.println("Guess was not saved to file.");
@@ -103,9 +113,10 @@ public class RandomGuesser {
                 continue;
             }
             int guess = Integer.parseInt(input.trim());
+            handleGuess(guess);
             guesses.add(guess);
             saveGuess(guess);
-            handleGuess(guess);
+            
         } while (!input.equals("quit") && !input.equals(Integer.toString(num)));
         System.out.println("Exiting game...");
     }
@@ -135,10 +146,12 @@ public class RandomGuesser {
                 String fName = input.substring(5);
                 File f = new File("db" + File.separator + "RandomGuesser" + File.separator + fName);
                 RandomGuesser game = RandomGuesser.load(f);
+                game.play();
+
             }
         } while (!input.equals("quit"));
         System.out.println("Exiting program...");
-        Thread.sleep(50);
+        Thread.sleep(1000);
         System.out.println("Goodbye!");
     }
 

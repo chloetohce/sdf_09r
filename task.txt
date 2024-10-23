@@ -1,3 +1,4 @@
+TASK 9
 Generate a random 6-digit number
 Allow the user to make a guess of the number
 If the number entered is less than the generated number, hint to the player that the number entered is lower
@@ -7,7 +8,22 @@ Game restarts.
 Save to file so that game can be saved and loaded again in the future. 
 
 
+TASK 10
 Randomly generate 10 numbers between 1 and 100
 Shuffle the 10 numbers
 Show the first shuffled number
-Guess whether the next number is higher or lowerFor every guess, put the shuffled number (guessed)
+Guess whether the next number is higher or lower.
+For every guess, put the shuffled number (guessed) onto a guessed array
+For every guess:
+    display the count of numbers that are greater than the shuffled number
+    display the count of numbers that are lower than the shuffled number
+
+
+TASK11
+Create a deck of 52 cards and shuffle them
+    Suit: HEART, SPADE, DIAMOND, CLUBS
+    Number: (1,2,3,4,5,6,7,8,9,JACK, QUEEN, KING)
+Display the shuffled cards
+
+
+TASK12
