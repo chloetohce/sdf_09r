@@ -1,0 +1,13 @@
+Generate a random 6-digit number
+Allow the user to make a guess of the number
+If the number entered is less than the generated number, hint to the player that the number entered is lower
+If the number entered is greater than the generated number, hint to the player that the number entered is higher.
+If the number entered is the same as the generated number, player wins.
+Game restarts.
+Save to file so that game can be saved and loaded again in the future. 
+
+
+Randomly generate 10 numbers between 1 and 100
+Shuffle the 10 numbers
+Show the first shuffled number
+Guess whether the next number is higher or lowerFor every guess, put the shuffled number (guessed)
