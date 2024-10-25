@@ -5,7 +5,7 @@ import java.net.*;
 import task11.card.*;
 
 public class Player implements Person {
-    private final Hand hand;
+    private Hand hand;
     private final String id;
     private final Socket conn;
     private final BufferedReader br;
@@ -27,8 +27,11 @@ public class Player implements Person {
         hand.add(c);
     }
 
-    public String printMenu() {
-        return "What would you like to do?\n1. Display current hand.\n2. Get another card.\n3. Stand.\n\n";
+    public void printMenu() {
+        bw.println("What would you like to do?");
+        bw.println("1. Display current hand.");
+        bw.println("2. Get another card.");
+        bw.println("3. Stand.");
     }
 
     /**
@@ -38,6 +41,7 @@ public class Player implements Person {
      */
     public void send(String msg) throws IOException {
         bw.println(msg);
+        bw.flush();
     }
 
     public String receive() throws IOException {
@@ -47,15 +51,12 @@ public class Player implements Person {
 
     @Override
     public String query() throws IOException {
-        bw.println("QUERY:" + printMenu());
-
+        printMenu();
+        bw.println("QUERY:Enter a number.");
         String input = receive();
-        System.out.println(input);
         switch (input) {
             case "1" -> {
                 bw.println(hand.displayHand() + " = " + hand.getValue());
-                // send(hand.displayHand());
-                // send("Current hand value: " + hand.getValue());
                 return "NA";
             }
             case "2" -> {
@@ -71,6 +72,15 @@ public class Player implements Person {
         }
     }
 
+    public void closeConn() throws IOException {
+        send("CLOSE: Closing game.");
+        conn.close();
+    }
+
+    public void clearHand() {
+        this.hand = new Hand();
+    }
+
     @Override
     public int getValue() {
         return hand.getValue();
@@ -78,13 +88,13 @@ public class Player implements Person {
 
     @Override
     public void endGame(boolean win, Hand dealer) throws IOException {
-        // if (win) {
-        //     bw.println("You win!");
-        // } else {
-        //     bw.println("You lose...");
-        // }
-        bw.println(String.format("Your hand: %s (Value: %d)\nDealer's hand: %s (Value: %d)", hand.displayHand(), 
-            hand.getValue(), dealer.displayHand(), dealer.getValue()));
+        if (win) {
+            bw.println("You win!");
+        } else {
+            bw.println("You lose...");
+        }
+        bw.println(String.format("Your hand: %s (Value: %d)", hand.displayHand(), hand.getValue()));
+        bw.println(String.format("Dealer's hand: %s (Value: %d)", dealer.displayHand(), dealer.getValue()));
     }
 
     @Override
